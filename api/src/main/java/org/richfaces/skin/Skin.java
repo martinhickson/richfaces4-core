@@ -20,7 +20,7 @@
  */
 package org.richfaces.skin;
 
-import javax.faces.context.FacesContext;
+import jakarta.faces.context.FacesContext;
 
 /**
  * Main interface for configurable parameters.

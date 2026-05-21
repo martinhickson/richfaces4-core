@@ -32,10 +32,10 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import javax.el.ELContext;
-import javax.el.ValueExpression;
-import javax.faces.FacesException;
-import javax.faces.context.FacesContext;
+import jakarta.el.ELContext;
+import jakarta.el.ValueExpression;
+import jakarta.faces.FacesException;
+import jakarta.faces.context.FacesContext;
 
 import com.google.common.base.Function;
 import com.google.common.collect.MapMaker;

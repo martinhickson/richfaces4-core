@@ -36,8 +36,8 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.SimpleTimeZone;
 
-import javax.faces.FacesException;
-import javax.faces.context.ResponseWriter;
+import jakarta.faces.FacesException;
+import jakarta.faces.context.ResponseWriter;
 
 import org.ajax4jsf.Messages;
 import org.richfaces.log.Logger;

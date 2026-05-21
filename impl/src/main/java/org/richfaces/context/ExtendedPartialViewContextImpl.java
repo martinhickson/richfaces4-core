@@ -30,21 +30,22 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
-import javax.faces.component.visit.VisitCallback;
-import javax.faces.component.visit.VisitContext;
-import javax.faces.component.visit.VisitHint;
-import javax.faces.component.visit.VisitResult;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.faces.context.PartialResponseWriter;
-import javax.faces.context.PartialViewContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.event.PhaseId;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.UIViewRoot;
+import jakarta.faces.component.visit.VisitCallback;
+import jakarta.faces.component.visit.VisitContext;
+import jakarta.faces.component.visit.VisitHint;
+import jakarta.faces.component.visit.VisitResult;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.context.PartialResponseWriter;
+import jakarta.faces.context.PartialViewContext;
+import jakarta.faces.context.ResponseWriter;
+import jakarta.faces.event.PhaseId;
 
 import org.ajax4jsf.javascript.ScriptUtils;
 import org.richfaces.application.ServiceTracker;
@@ -180,6 +181,11 @@ public class ExtendedPartialViewContextImpl extends ExtendedPartialViewContext {
     @Override
     public PartialResponseWriter getPartialResponseWriter() {
         return wrappedViewContext.getPartialResponseWriter();
+    }
+
+    @Override
+    public List<String> getEvalScripts() {
+        return wrappedViewContext.getEvalScripts();
     }
 
     private boolean isProcessedExecutePhase(PhaseId phaseId) {

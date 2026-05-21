@@ -24,7 +24,7 @@ import static org.richfaces.application.configuration.ConfigurationServiceHelper
 
 import java.util.Map;
 
-import javax.faces.context.FacesContext;
+import jakarta.faces.context.FacesContext;
 
 import org.richfaces.application.CoreConfiguration;
 import org.richfaces.cache.Cache;

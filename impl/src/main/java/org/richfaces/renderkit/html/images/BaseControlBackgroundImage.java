@@ -20,7 +20,7 @@
  */
 package org.richfaces.renderkit.html.images;
 
-import javax.faces.context.FacesContext;
+import jakarta.faces.context.FacesContext;
 
 import org.richfaces.renderkit.html.BaseGradient;
 import org.richfaces.skin.Skin;

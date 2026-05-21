@@ -29,9 +29,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.PartialResponseWriter;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.context.PartialResponseWriter;
 
 import org.richfaces.application.ServiceTracker;
 import org.richfaces.context.ExtendedPartialViewContext;

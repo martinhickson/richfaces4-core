@@ -8,16 +8,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.el.ValueExpression;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UINamingContainer;
-import javax.faces.component.UniqueIdVendor;
-import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
-import javax.faces.event.AbortProcessingException;
-import javax.faces.event.FacesEvent;
-import javax.faces.event.FacesListener;
-import javax.faces.render.Renderer;
+import jakarta.el.ValueExpression;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.UINamingContainer;
+import jakarta.faces.component.UniqueIdVendor;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.AbortProcessingException;
+import jakarta.faces.event.FacesEvent;
+import jakarta.faces.event.FacesListener;
+import jakarta.faces.render.Renderer;
 
 import org.richfaces.renderkit.html.ScriptsRenderer;
 
@@ -56,19 +55,6 @@ public abstract class UITransient extends UIComponent {
     @Override
     public Map<String, Object> getAttributes() {
         return attributesMap;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public ValueBinding getValueBinding(String name) {
-        return null;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void setValueBinding(String name, ValueBinding binding) {
-        // do nothing
-
     }
 
     @Override

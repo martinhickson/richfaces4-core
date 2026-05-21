@@ -25,7 +25,7 @@ import java.util.AbstractMap;
 import java.util.Collections;
 import java.util.Set;
 
-import javax.faces.context.FacesContext;
+import jakarta.faces.context.FacesContext;
 
 /**
  * @author shura (latest modification by $Author: alexsmirnov $)

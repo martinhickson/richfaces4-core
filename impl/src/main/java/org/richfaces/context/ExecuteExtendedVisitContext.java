@@ -24,8 +24,8 @@ package org.richfaces.context;
 import java.util.Collection;
 import java.util.Set;
 
-import javax.faces.component.visit.VisitHint;
-import javax.faces.context.FacesContext;
+import jakarta.faces.component.visit.VisitHint;
+import jakarta.faces.context.FacesContext;
 
 /**
  * @author Nick Belaevski

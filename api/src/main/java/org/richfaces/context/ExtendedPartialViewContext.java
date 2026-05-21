@@ -23,8 +23,8 @@ package org.richfaces.context;
 
 import java.util.Map;
 
-import javax.faces.context.FacesContext;
-import javax.faces.context.PartialViewContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.context.PartialViewContext;
 
 import com.google.common.collect.Maps;
 

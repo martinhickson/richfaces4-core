@@ -22,27 +22,16 @@
 package org.richfaces.webapp;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Set;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
-import org.richfaces.application.push.PushContext;
 import org.richfaces.log.Logger;
 import org.richfaces.log.RichfacesLogger;
-
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Sets;
 
 /**
  * @author Nick Belaevski
@@ -52,88 +41,15 @@ public class PushFilter implements Filter {
     private static final long serialVersionUID = 7616370505508715222L;
     private static final Logger LOGGER = RichfacesLogger.WEBAPP.getLogger();
 
-    private final class ServletConfigFacade implements ServletConfig {
-        private final FilterConfig filterConfig;
-
-        private ServletConfigFacade(FilterConfig filterConfig) {
-            this.filterConfig = filterConfig;
-        }
-
-        public String getServletName() {
-            return filterConfig.getFilterName();
-        }
-
-        public ServletContext getServletContext() {
-            return filterConfig.getServletContext();
-        }
-
-        public String getInitParameter(String name) {
-            String result = filterConfig.getInitParameter(name);
-
-            if (result == null) {
-                result = filterConfig.getServletContext().getInitParameter(name);
-            }
-
-            return result;
-        }
-
-        public Enumeration<String> getInitParameterNames() {
-            Set<String> result = Sets.newLinkedHashSet();
-
-            result.addAll(Collections.list(filterConfig.getInitParameterNames()));
-            result.addAll(Collections.list(filterConfig.getServletContext().getInitParameterNames()));
-
-            return Iterators.asEnumeration(result.iterator());
-        }
-    }
-
-    private PushServlet pushServlet;
-
     public void init(FilterConfig filterConfig) throws ServletException {
-        PushContext handlerProvider = (PushContext) filterConfig.getServletContext()
-            .getAttribute(PushContext.INSTANCE_KEY_NAME);
-
-        if (handlerProvider != null) {
-            logPushFilterWarning(filterConfig.getServletContext());
-
-            pushServlet = new PushServlet();
-            ServletConfigFacade servletConfig = new ServletConfigFacade(filterConfig);
-            pushServlet.init(servletConfig);
-        }
-    }
-
-    private void logPushFilterWarning(ServletContext servletContext) {
-        String message;
-
-        if (servletContext.getMajorVersion() >= 3) {
-            message = "PushFilter has been deprecated, you can remove its declaration in Servlets 3 environment";
-        } else {
-            message = "PushFilter has been deprecated, you should use PushServlet instead";
-        }
-
-        LOGGER.warn(message);
+        LOGGER.warn("PushFilter has been deprecated and is a no-op on Jakarta EE");
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
         ServletException {
-        if (pushServlet != null && request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
-            HttpServletRequest httpReq = (HttpServletRequest) request;
-            HttpServletResponse httpResp = (HttpServletResponse) response;
-
-            if ("GET".equals(httpReq.getMethod()) && httpReq.getQueryString() != null
-                && httpReq.getQueryString().contains("__richfacesPushAsync")) {
-                pushServlet.doGet(httpReq, httpResp);
-                return;
-            }
-        }
-
         chain.doFilter(request, response);
     }
 
     public void destroy() {
-        if (pushServlet != null) {
-            pushServlet.destroy();
-            pushServlet = null;
-        }
     }
 }
