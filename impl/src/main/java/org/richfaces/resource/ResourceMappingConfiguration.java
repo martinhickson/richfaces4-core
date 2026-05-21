@@ -23,7 +23,7 @@ package org.richfaces.resource;
 
 import java.util.Map;
 
-import javax.faces.context.FacesContext;
+import jakarta.faces.context.FacesContext;
 
 import org.richfaces.application.CoreConfiguration;
 import org.richfaces.application.configuration.ConfigurationService;

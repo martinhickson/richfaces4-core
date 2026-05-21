@@ -22,7 +22,7 @@ package org.ajax4jsf.javascript;
 
 import java.io.IOException;
 
-import javax.faces.FacesException;
+import jakarta.faces.FacesException;
 
 /**
  * @author shura (latest modification by $Author: alexsmirnov $)

@@ -31,7 +31,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import javax.faces.context.FacesContext;
+import jakarta.faces.context.FacesContext;
 
 import org.richfaces.renderkit.html.images.GradientType;
 import org.richfaces.renderkit.html.images.GradientType.BiColor;

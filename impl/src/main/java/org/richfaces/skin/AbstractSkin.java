@@ -23,7 +23,7 @@ package org.richfaces.skin;
 
 import java.awt.Color;
 
-import javax.faces.context.FacesContext;
+import jakarta.faces.context.FacesContext;
 
 import org.ajax4jsf.util.HtmlColor;
 import org.richfaces.renderkit.util.HtmlDimensions;

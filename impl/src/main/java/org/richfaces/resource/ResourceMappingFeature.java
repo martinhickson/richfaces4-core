@@ -24,8 +24,8 @@ package org.richfaces.resource;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.el.ValueExpression;
-import javax.faces.context.FacesContext;
+import jakarta.el.ValueExpression;
+import jakarta.faces.context.FacesContext;
 
 import org.richfaces.el.util.ELUtils;
 

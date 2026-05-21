@@ -29,18 +29,25 @@
 
     <groupId>org.richfaces.core</groupId>
     <artifactId>richfaces-core-parent</artifactId>
-    <version>4.2.2.Final</version>
+    <version>4.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>RichFaces Core Parent</name>
 
     <properties>
         <!-- Upstream BOM stays at 4.2.2.Final even when this POM is released at a Bravura version -->
         <version.richfaces.bom>4.2.2.Final</version.richfaces.bom>
-        <!-- jboss-parent defaults to 1.6; override for JDK 8 CI -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.argument.source>1.8</maven.compiler.argument.source>
-        <maven.compiler.argument.target>1.8</maven.compiler.argument.target>
+        <!-- Jakarta EE API versions (Faces 4 / Servlet 6 / EL 6) -->
+        <version.jakarta.faces-api>4.1.2</version.jakarta.faces-api>
+        <version.jakarta.el-api>6.0.1</version.jakarta.el-api>
+        <version.jakarta.servlet-api>6.1.0</version.jakarta.servlet-api>
+        <version.jakarta.servlet.jsp-api>3.1.1</version.jakarta.servlet.jsp-api>
+        <version.jakarta.servlet.jsp.jstl-api>3.0.2</version.jakarta.servlet.jsp.jstl-api>
+        <version.jakarta.inject-api>2.0.1</version.jakarta.inject-api>
+        <version.jakarta.enterprise.cdi-api>4.1.0</version.jakarta.enterprise.cdi-api>
+        <version.jakarta.jms-api>3.1.0</version.jakarta.jms-api>
+        <!-- Jakarta EE requires JDK 17+ to compile -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <dependencyManagement>
@@ -51,6 +58,58 @@
                 <version>${version.richfaces.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- Jakarta EE API overrides (Bravura fork targets Jakarta, not javax) -->
+            <dependency>
+                <groupId>jakarta.faces</groupId>
+                <artifactId>jakarta.faces-api</artifactId>
+                <version>${version.jakarta.faces-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.el</groupId>
+                <artifactId>jakarta.el-api</artifactId>
+                <version>${version.jakarta.el-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${version.jakarta.servlet-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.servlet.jsp</groupId>
+                <artifactId>jakarta.servlet.jsp-api</artifactId>
+                <version>${version.jakarta.servlet.jsp-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.servlet.jsp.jstl</groupId>
+                <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+                <version>${version.jakarta.servlet.jsp.jstl-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>${version.jakarta.inject-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.enterprise</groupId>
+                <artifactId>jakarta.enterprise.cdi-api</artifactId>
+                <version>${version.jakarta.enterprise.cdi-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.jms</groupId>
+                <artifactId>jakarta.jms-api</artifactId>
+                <version>${version.jakarta.jms-api}</version>
+            </dependency>
+            <!-- Reactor modules: never resolve Bravura/SNAPSHOT builds from upstream BOM @ Final -->
+            <dependency>
+                <groupId>org.richfaces.core</groupId>
+                <artifactId>richfaces-core-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.richfaces.core</groupId>
+                <artifactId>richfaces-core-impl</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -67,8 +126,35 @@
                         <target>${maven.compiler.target}</target>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>3.4.1</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-java-version</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireJavaVersion>
+                                        <version>17</version>
+                                        <message>RichFaces Core (Jakarta) requires JDK 17 or greater.</message>
+                                    </requireJavaVersion>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
     <description>

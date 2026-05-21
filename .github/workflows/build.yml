@@ -24,11 +24,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up JDK 8 (Corretto)
+    - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
-        java-version: '8'
-        distribution: 'corretto'
+        java-version: '17'
+        distribution: 'temurin'
 
     - name: Cache Maven dependencies
       uses: actions/cache@v3
@@ -172,7 +172,7 @@ jobs:
         echo -e "\033[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
         echo -e "\033[1;32m✓\033[0m \033[1;32mRichFaces Core build completed successfully\033[0m"
         echo -e "\033[32m  ✓\033[0m Repository checked out"
-        echo -e "\033[32m  ✓\033[0m JDK 8 (Corretto) ready"
+        echo -e "\033[32m  ✓\033[0m JDK 17 ready"
         echo -e "\033[32m  ✓\033[0m Maven settings configured"
         echo -e "\033[32m  ✓\033[0m Parent POM installed"
         echo -e "\033[32m  ✓\033[0m All modules built"

@@ -23,7 +23,7 @@ package org.ajax4jsf.javascript;
 import java.io.IOException;
 import java.io.Writer;
 
-import javax.faces.context.ResponseWriter;
+import jakarta.faces.context.ResponseWriter;
 
 final class ResponseWriterWrapper extends Writer {
     private static final int BUFFER_SIZE = 1024;

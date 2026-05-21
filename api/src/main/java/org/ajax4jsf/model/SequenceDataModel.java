@@ -20,8 +20,8 @@
  */
 package org.ajax4jsf.model;
 
-import javax.faces.context.FacesContext;
-import javax.faces.model.DataModel;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.model.DataModel;
 
 /**
  * @author shura
