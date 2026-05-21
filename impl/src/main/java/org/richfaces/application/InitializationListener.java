@@ -32,13 +32,13 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
-import javax.faces.FacesException;
-import javax.faces.context.FacesContext;
-import javax.faces.event.AbortProcessingException;
-import javax.faces.event.PostConstructApplicationEvent;
-import javax.faces.event.PreDestroyApplicationEvent;
-import javax.faces.event.SystemEvent;
-import javax.faces.event.SystemEventListener;
+import jakarta.faces.FacesException;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.AbortProcessingException;
+import jakarta.faces.event.PostConstructApplicationEvent;
+import jakarta.faces.event.PreDestroyApplicationEvent;
+import jakarta.faces.event.SystemEvent;
+import jakarta.faces.event.SystemEventListener;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 

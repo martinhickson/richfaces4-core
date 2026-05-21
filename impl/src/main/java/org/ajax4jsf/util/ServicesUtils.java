@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.faces.FacesException;
+import jakarta.faces.FacesException;
 
 import org.ajax4jsf.resource.util.URLToStreamHelper;
 import org.richfaces.log.Logger;

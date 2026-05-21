@@ -20,7 +20,7 @@
  */
 package org.ajax4jsf.model;
 
-import javax.faces.context.FacesContext;
+import jakarta.faces.context.FacesContext;
 
 /**
  * Interface for classes, able to receive visitor processing calls from ExtendedDataModel

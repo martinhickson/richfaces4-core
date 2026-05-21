@@ -1,7 +1,7 @@
 package org.richfaces.log;
 
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.UIViewRoot;
 
 /**
  * @author Anton Belevich

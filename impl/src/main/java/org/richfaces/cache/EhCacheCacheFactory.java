@@ -9,7 +9,7 @@ import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import javax.faces.context.FacesContext;
+import jakarta.faces.context.FacesContext;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;

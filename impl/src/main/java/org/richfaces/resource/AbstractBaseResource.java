@@ -32,9 +32,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.faces.FacesException;
-import javax.faces.application.Resource;
-import javax.faces.context.FacesContext;
+import jakarta.faces.FacesException;
+import jakarta.faces.application.Resource;
+import jakarta.faces.context.FacesContext;
 
 import org.richfaces.application.ServiceTracker;
 import org.richfaces.application.Uptime;
