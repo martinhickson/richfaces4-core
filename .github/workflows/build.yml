@@ -1,0 +1,180 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - 4.2.2-maintenance
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+      JAVA_TOOL_OPTIONS: -Xmx2048m
+      JBOSS_PUBLIC_REPO: https://repository.jboss.org/nexus/content/groups/public
+      EXTRA_REPO_CDK: https://maven.pkg.github.com/martinhickson/richfaces-cdk
+      EXTRA_REPO_EL: https://maven.pkg.github.com/martinhickson/jboss-el
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 8 (Corretto)
+      uses: actions/setup-java@v4
+      with:
+        java-version: '8'
+        distribution: 'corretto'
+
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Configure Maven settings
+      run: |
+        mkdir -p ~/.m2
+        cat > ~/.m2/settings.xml << EOF
+        <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+          <servers>
+            <server>
+              <id>github-packages</id>
+              <username>${{ github.actor }}</username>
+              <password>${{ secrets.GITHUB_TOKEN }}</password>
+            </server>
+            <server>
+              <id>github-packages-cdk</id>
+              <username>${{ github.actor }}</username>
+              <password>${{ secrets.GITHUB_TOKEN }}</password>
+            </server>
+            <server>
+              <id>github-packages-el</id>
+              <username>${{ github.actor }}</username>
+              <password>${{ secrets.GITHUB_TOKEN }}</password>
+            </server>
+          </servers>
+          <profiles>
+            <profile>
+              <id>ci-extra-repositories</id>
+              <repositories>
+                <repository>
+                  <id>jboss-public</id>
+                  <name>JBoss Public Repository Group</name>
+                  <url>${JBOSS_PUBLIC_REPO}</url>
+                  <releases>
+                    <enabled>true</enabled>
+                  </releases>
+                  <snapshots>
+                    <enabled>false</enabled>
+                  </snapshots>
+                </repository>
+              </repositories>
+              <pluginRepositories>
+                <pluginRepository>
+                  <id>jboss-public</id>
+                  <name>JBoss Public Repository Group</name>
+                  <url>${JBOSS_PUBLIC_REPO}</url>
+                  <releases>
+                    <enabled>true</enabled>
+                  </releases>
+                  <snapshots>
+                    <enabled>false</enabled>
+                  </snapshots>
+                </pluginRepository>
+              </pluginRepositories>
+            </profile>
+            <profile>
+              <id>bravura-extra-repos</id>
+              <repositories>
+                <repository>
+                  <id>github-packages-cdk</id>
+                  <name>Bravura RichFaces CDK (GitHub Packages)</name>
+                  <url>${EXTRA_REPO_CDK}</url>
+                  <releases>
+                    <enabled>true</enabled>
+                  </releases>
+                  <snapshots>
+                    <enabled>true</enabled>
+                  </snapshots>
+                </repository>
+                <repository>
+                  <id>github-packages-el</id>
+                  <name>Bravura JBoss EL (GitHub Packages)</name>
+                  <url>${EXTRA_REPO_EL}</url>
+                  <releases>
+                    <enabled>true</enabled>
+                  </releases>
+                  <snapshots>
+                    <enabled>true</enabled>
+                  </snapshots>
+                </repository>
+              </repositories>
+              <pluginRepositories>
+                <pluginRepository>
+                  <id>github-packages-cdk</id>
+                  <name>Bravura RichFaces CDK (GitHub Packages)</name>
+                  <url>${EXTRA_REPO_CDK}</url>
+                  <releases>
+                    <enabled>true</enabled>
+                  </releases>
+                  <snapshots>
+                    <enabled>true</enabled>
+                  </snapshots>
+                </pluginRepository>
+              </pluginRepositories>
+            </profile>
+          </profiles>
+          <activeProfiles>
+            <activeProfile>ci-extra-repositories</activeProfile>
+          </activeProfiles>
+        </settings>
+        EOF
+        echo -e "\033[1;32m✓\033[0m \033[32mMaven settings configured\033[0m"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install parent POM
+      run: |
+        mvn install -f parent/pom.xml -N -ntp -Pbravura-extra-repos
+        echo -e "\033[1;32m✓\033[0m \033[32mParent POM installed\033[0m"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build all modules
+      run: |
+        mvn clean install -ntp -DskipTests -Pbravura-extra-repos
+        echo -e "\033[1;32m✓\033[0m \033[32mAll modules built\033[0m"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: richfaces-core-artifacts
+        path: |
+          api/target/*.jar
+          impl/target/*.jar
+        if-no-files-found: warn
+
+    - name: '✓ Build successful'
+      if: success()
+      run: |
+        echo ""
+        echo -e "\033[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+        echo -e "\033[1;32m✓\033[0m \033[1;32mRichFaces Core build completed successfully\033[0m"
+        echo -e "\033[32m  ✓\033[0m Repository checked out"
+        echo -e "\033[32m  ✓\033[0m JDK 8 (Corretto) ready"
+        echo -e "\033[32m  ✓\033[0m Maven settings configured"
+        echo -e "\033[32m  ✓\033[0m Parent POM installed"
+        echo -e "\033[32m  ✓\033[0m All modules built"
+        echo -e "\033[32m  ✓\033[0m Artifacts uploaded"
+        echo -e "\033[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"

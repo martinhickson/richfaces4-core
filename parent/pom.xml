@@ -29,8 +29,47 @@
 
     <groupId>org.richfaces.core</groupId>
     <artifactId>richfaces-core-parent</artifactId>
+    <version>4.2.2.Final</version>
     <packaging>pom</packaging>
     <name>RichFaces Core Parent</name>
+
+    <properties>
+        <!-- Upstream BOM stays at 4.2.2.Final even when this POM is released at a Bravura version -->
+        <version.richfaces.bom>4.2.2.Final</version.richfaces.bom>
+        <!-- jboss-parent defaults to 1.6; override for JDK 8 CI -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.argument.source>1.8</maven.compiler.argument.source>
+        <maven.compiler.argument.target>1.8</maven.compiler.argument.target>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.richfaces</groupId>
+                <artifactId>richfaces-bom</artifactId>
+                <version>${version.richfaces.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
     <description>
         The Parent for all RichFaces core sub-projects. This specifies build and project meta-data. Runtime dependencies are

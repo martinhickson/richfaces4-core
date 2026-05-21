@@ -142,6 +142,7 @@ public final class ELUtils {
      * @param targetType which should be object coerced into
      * @return the given value coerced to targetType
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static <T> T coerce(Object value, Class<T> targetType) {
         if (value == null) {
             return null;
@@ -162,7 +163,7 @@ public final class ELUtils {
                 editor.setAsText((String) value);
                 return targetType.cast(editor.getValue());
             } else if (targetType.isEnum()) {
-                return targetType.cast(Enum.valueOf((Class<Enum>) targetType, (String) value));
+                return (T) Enum.valueOf((Class) targetType, (String) value);
             }
         }
 
