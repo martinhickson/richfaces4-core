@@ -29,7 +29,7 @@
 
     <groupId>org.richfaces.core</groupId>
     <artifactId>richfaces-core-parent</artifactId>
-    <version>4.2.2.Final</version>
+    <version>4.2.2-bravura-2</version>
     <packaging>pom</packaging>
     <name>RichFaces Core Parent</name>
 
